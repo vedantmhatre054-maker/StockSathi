@@ -1,12 +1,12 @@
 import sqlite3
 
-# 🔹 connect to DB
+
+# 🔹 Connect DB
 def connect_db():
-    conn = sqlite3.connect("stock.db")
-    return conn
+    return sqlite3.connect("stock.db")
 
 
-# 🔹 create table
+# 🔹 Create table
 def create_table():
     conn = connect_db()
     cursor = conn.cursor()
@@ -23,12 +23,11 @@ def create_table():
     conn.close()
 
 
-# 🔹 add or update stock
+# 🔹 Update stock
 def update_stock(item, quantity, unit, action):
     conn = connect_db()
     cursor = conn.cursor()
 
-    # check if item exists
     cursor.execute("SELECT quantity FROM stock WHERE item=?", (item,))
     result = cursor.fetchone()
 
@@ -44,7 +43,6 @@ def update_stock(item, quantity, unit, action):
             "UPDATE stock SET quantity=? WHERE item=?",
             (new_qty, item)
         )
-
     else:
         new_qty = quantity
         cursor.execute(
@@ -57,7 +55,8 @@ def update_stock(item, quantity, unit, action):
 
     return new_qty
 
-# 🔹 get stock
+
+# 🔹 Get stock
 def get_stock(item):
     conn = connect_db()
     cursor = conn.cursor()
